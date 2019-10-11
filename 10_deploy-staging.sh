@@ -18,8 +18,10 @@ oc new-project 12factor-staging
 oc policy add-role-to-user system:image-puller system:serviceaccount:12factor-staging:default -n 12factor-dev
 oc tag 12factor-dev/my12factorapp:latest 12factor-staging/my12factorapp:latest
 oc new-app my12factorapp
-oc expose svc/my12factorapp --hostname 12factorappdemo-staging.$OPENSHIFT_IP.nip.io
+#oc expose svc/my12factorapp --hostname 12factorappdemo-staging.$OPENSHIFT_IP.nip.io
+oc expose svc/my12factorapp
 oc set probe dc/my12factorapp --readiness --get-url=http://:8080/api/health
-echo "Application executed. Check the URL: http://12factorappdemo-staging.$OPENSHIFT_IP.nip.io/api/hello/$DEMOTEXT"
+export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
+echo "Application executed. Check the URL: http://$OPENSHIFT_APP/api/hello/$DEMOTEXT"
 oc project 12factor-dev
 

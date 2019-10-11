@@ -16,4 +16,5 @@
 oc scale dc/my12factorapp --replicas=3
 oc scale dc/my12factorapp --replicas=3
 echo "App Scaled to three instances"
-while true; do curl -m 1 -s http://12factorappdemo.$OPENSHIFT_IP.nip.io/api/hello/$DEMOTEXT ; echo; sleep 1; done
+export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
+while true; do curl -m 1 -s http://$OPENSHIFT_APP/api/hello/$DEMOTEXT ; echo; sleep 1; done

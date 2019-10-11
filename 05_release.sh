@@ -13,4 +13,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-oc start-build my12factorapp --from-dir=. --follow
+
+oc apply -f ~/Downloads/rbaumgar-token-secret.yaml
+oc import-image openjdk18-openshift --from=registry.redhat.io/redhat-openjdk-18/openjdk18-openshift --confirm
+
+#oc start-build my12factorapp --from-dir=. --follow
+
+oc new-build openjdk18-openshift --binary=true --name=my12factorapp
+oc start-build my12factorapp --from-file=target/helloworld-service-fat.jar -F
+
+

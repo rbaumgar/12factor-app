@@ -13,10 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#FROM openjdk18-openshift
+FROM openjdk18-openshift:latest
 #FROM fabric8/java-jboss-openjdk8-jdk:1.1.7
 #FROM fabric8/java-jboss-openjdk8-jdk
-FROM redhat-openjdk-18/openjdk18-openshift 
+#FROM redhat-openjdk-18/openjdk18-openshift 
+#FROM openshift/redhat-openjdk18-openshift
 #FROM 172.30.1.1:5000/openshift/redhat-openjdk18-openshift
 
 ENV JAVA_APP_JAR helloworld-service-fat.jar

@@ -1,6 +1,6 @@
 # Helloworld
 
-The slides of this presentation are available at <https://docs.google.com/presentation/d/1LR7PVLiW8kxr8HABvCbvEATL52-SYp1eiZ8M1MSGH8E/edit?usp=sharing>
+The slides of this presentation are available at <http://bit.ly/12factors-app>
 
 To use the scripts, specify the OPENSHIFT_IP environment variable.
 

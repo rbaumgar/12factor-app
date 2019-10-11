@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 oc new-app my12factorapp
-oc expose svc/my12factorapp --hostname 12factorappdemo.$OPENSHIFT_IP.nip.io
+#oc expose svc/my12factorapp --hostname 12factorappdemo.$OPENSHIFT_IP.nip.io
+oc expose svc/my12factorapp
 oc set probe dc/my12factorapp --readiness --get-url=http://:8080/api/health
-echo "Application executed. Check the URL: http://12factorappdemo.$OPENSHIFT_IP.nip.io/api/hello/$DEMOTEXT"
+export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
+echo "Application executed. Check the URL: http://$OPENSHIFT_APP/api/hello/$DEMOTEXT"

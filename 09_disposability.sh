@@ -15,4 +15,5 @@
 # limitations under the License.
 echo "Destroying two processes"
 oc delete pod `oc get pods -l app=my12factorapp --no-headers=true| grep my12factorapp -m 2| awk '{ print $1 }'`
-while true; do curl http://12factorappdemo.$OPENSHIFT_IP.nip.io/api/hello/$DEMOTEXT ; echo; sleep 1; done
+export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
+while true; do curl http://$OPENSHIFT_APP/api/hello/$DEMOTEXT ; echo; sleep 1; done

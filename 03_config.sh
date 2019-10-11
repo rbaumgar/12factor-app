@@ -14,4 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 oc set env dc/my12factorapp GREETING="Hi {name}! - My Configuration has changed"
-echo "Configuration updated. Please check again http://12factorappdemo.$OPENSHIFT_IP.nip.io/api/hello/$DEMOTEXT"
+export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
+echo "Configuration updated. Please check again http://$OPENSHIFT_APP/api/hello/$DEMOTEXT"

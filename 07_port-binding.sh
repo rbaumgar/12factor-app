@@ -17,5 +17,6 @@ oc scale dc/my12factorapp --replicas=1
 oc patch svc/mysql -p '{"spec":{"ports":[{"name": "5000-tcp", "port": 5000, "targetPort": 3306}]}}'
 oc set env dc/my12factorapp port=5000
 # open http://12factorappdemo.$OPENSHIFT_IP.nip.io/api/db
-echo "Configuration updated. Please check again http://12factorappdemo.$OPENSHIFT_IP.nip.io/api/db"
+export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
+echo "Configuration updated. Please check again http://$OPENSHIFT_APP/api/db"
 echo "Database port 3306 was bound to port 5000"
