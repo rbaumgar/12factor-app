@@ -37,7 +37,7 @@ import io.vertx.ext.web.handler.CorsHandler;
 
 public class HelloworldVerticle extends AbstractVerticle {
 
-    public static final String version = "1.0";
+    public static final String version = "1.1";
     private Logger logger = LoggerFactory.getLogger(HelloworldVerticle.class);
 
     @Override
@@ -95,10 +95,11 @@ public class HelloworldVerticle extends AbstractVerticle {
 
     private String hello(String name) {
         String configGreeting = ApplicationConfiguration.load(config()).getString("GREETING");
-        String greeting = configGreeting == null ? "Hello {name} from {hostname} with {version}" : configGreeting;
+        String greeting = configGreeting == null ? "Hello {name} from {hostname} @ {namespace} with {version}" : configGreeting;
         Map<String, String> values = new HashMap<String, String>();
         values.put("name", name);
         values.put("hostname", System.getenv().getOrDefault("HOSTNAME", "unknown"));
+        values.put("namespace", System.getenv().getOrDefault("NAMESPACE", "unknown"));
         values.put("version", version);
         return new StrSubstitutor(values, "{", "}").replace(greeting);
     }

@@ -14,12 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-oc apply -f ~/Downloads/rbaumgar-token-secret.yaml
-oc import-image openjdk18-openshift --from=registry.redhat.io/redhat-openjdk-18/openjdk18-openshift --confirm
-
 #oc start-build my12factorapp --from-dir=. --follow
 
-oc new-build openjdk18-openshift --binary=true --name=my12factorapp
+oc new-build java:8 --binary=true --name=my12factorapp
 oc start-build my12factorapp --from-file=target/helloworld-service-fat.jar -F
 
 

@@ -17,5 +17,6 @@ oc new-app my12factorapp
 #oc expose svc/my12factorapp --hostname 12factorappdemo.$OPENSHIFT_IP.nip.io
 oc expose svc/my12factorapp
 oc set probe dc/my12factorapp --readiness --get-url=http://:8080/api/health
+oc set env dc/my12factorapp NAMESPACE=`oc project -q`
 export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
 echo "Application executed. Check the URL: http://$OPENSHIFT_APP/api/hello/$DEMOTEXT"
