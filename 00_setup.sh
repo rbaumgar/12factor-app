@@ -19,4 +19,4 @@ echo "DEMOTEXT is $DEMOTEXT"
 #export PATH=~/apache-maven-3.5.0/bin:$PATH
 oc login --insecure-skip-tls-verify=true -u developer -p developer https://$OPENSHIFT_IP:8443
 oc new-project 12factor-dev
-oc new-build --binary --name=my12factorapp
+#oc new-build --binary --name=my12factorapp
