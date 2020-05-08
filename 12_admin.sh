@@ -16,4 +16,4 @@
 echo "Openning a new bash process in the exising application container"
 echo " "
 echo " application is under /deployments"
-oc rsh `oc get pods -l app=my12factorapp --no-headers=true|grep my12factorapp -m 1|awk '{print $1}'`
+oc rsh `oc get pods -l deploymentconfig=my12factorapp --no-headers=true|grep my12factorapp -m 1|awk '{print $1}'`

@@ -13,7 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-echo "Destroying two processes"
-oc delete pod `oc get pods -l app=my12factorapp --no-headers=true| grep my12factorapp -m 2| awk '{ print $1 }'`
 export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
+for i in {1..3}; do curl http://$OPENSHIFT_APP/api/hello/$DEMOTEXT ; echo; sleep 1; done
+echo "Destroying two processes"
+oc delete pod --wait=false `oc get pods -l deploymentconfig=my12factorapp --no-headers=true| grep my12factorapp -m 2| awk '{ print $1 }'`
 while true; do curl http://$OPENSHIFT_APP/api/hello/$DEMOTEXT ; echo; sleep 1; done
