@@ -13,9 +13,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-oc scale dc/my12factorapp --replicas=1
+oc scale deployment/my12factorapp --replicas=1
 oc patch svc/mysql -p '{"spec":{"ports":[{"name": "5000-tcp", "port": 5000, "targetPort": 3306}]}}'
-oc set env dc/my12factorapp port=5000
+oc set env deployment/my12factorapp port=5000 GREETING-
 # open http://12factorappdemo.$OPENSHIFT_IP.nip.io/api/db
 export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
 echo "Configuration updated. Please check again http://$OPENSHIFT_APP/api/db"

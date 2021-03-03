@@ -13,5 +13,5 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-oc exec -it `oc get pods -l deploymentconfig=mysql |grep mysql| awk '{ print $1 }'` -- bash -c "mysql -u myuser -pmypassword -h 127.0.0.1 mydatabase -te \"CREATE TABLE mytable (name varchar(50)); INSERT INTO mytable VALUES ('$DEMOTEXT'); INSERT INTO mytable VALUES ('Guten Tag');\""
+oc exec -it `oc get pods -l deployment=mysql |grep mysql| awk '{ print $1 }'` -- bash -c "mysql -u myuser -pmypassword -h 127.0.0.1 mydatabase -te \"CREATE TABLE mytable (name varchar(50)); INSERT INTO mytable VALUES ('$DEMOTEXT'); INSERT INTO mytable VALUES ('Guten Tag');\""
 echo "Database populated"

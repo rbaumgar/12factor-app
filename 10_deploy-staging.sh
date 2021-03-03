@@ -20,9 +20,9 @@ oc tag 12factor-dev/my12factorapp:latest 12factor-staging/my12factorapp:latest
 oc new-app my12factorapp
 #oc expose svc/my12factorapp --hostname 12factorappdemo-staging.$OPENSHIFT_IP.nip.io
 oc expose svc/my12factorapp
-oc set probe dc/my12factorapp --readiness --get-url=http://:8080/api/health
-oc set env dc/my12factorapp NAMESPACE=12factor-staging
-oc label dc/my12factorapp app.openshift.io/runtime=java --overwrite
+oc set probe deployment/my12factorapp --readiness --get-url=http://:8080/api/health
+oc set env deployment/my12factorapp NAMESPACE=12factor-staging
+oc label deployment/my12factorapp app.openshift.io/runtime=java --overwrite
 export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
 echo "Application executed. Check the URL: http://$OPENSHIFT_APP/api/hello/$DEMOTEXT"
 oc project 12factor-dev

@@ -16,7 +16,7 @@
 echo "Deploying a database"
 oc new-app --name mysql -e MYSQL_USER=myuser -e MYSQL_PASSWORD=mypassword -e MYSQL_DATABASE=mydatabase openshift/mysql-56-centos7 
 echo "Attach it to the app"
-oc set env dc/my12factorapp host=mysql username=myuser password=mypassword database=mydatabase 
-oc annotate dc/my12factorapp app.openshift.io/connects-to=mysql --overwrite
+oc set env deployment/my12factorapp host=mysql username=myuser password=mypassword database=mydatabase 
+oc annotate deployment/my12factorapp app.openshift.io/connects-to=mysql --overwrite
 export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
 echo "Open the URL: http://$OPENSHIFT_APP/api/db"
