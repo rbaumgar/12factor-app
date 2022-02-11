@@ -72,11 +72,11 @@
             <artifactId>vertx-mysql-postgresql-client</artifactId>
             <version>${vertx.version}</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.github.mauricio</groupId>
             <artifactId>mysql-async_2.11</artifactId>
             <version>0.2.20</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
