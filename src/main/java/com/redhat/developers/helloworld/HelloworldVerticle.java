@@ -67,7 +67,7 @@ public class HelloworldVerticle extends AbstractVerticle {
         router.get("/api/health").handler(ctx -> {
             ctx.response().end("I'm ok");
         });
-        vertx.createHttpServer().requestHandler(router::accept).listen(8080);
+        vertx.createHttpServer().requestHandler(router).listen(8080);
     }
 
     private void readFromDatabase(RoutingContext ctx) {
