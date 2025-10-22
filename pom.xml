@@ -52,7 +52,7 @@
         <version.exec.plugin>1.4.0</version.exec.plugin>
 <!--        <vertx.version>3.3.2</vertx.version> -->
 <!--        <vertx.version>3.7.1</vertx.version> -->
-        <vertx.version>3.9.12</vertx.version>
+        <vertx.version>4.5.22</vertx.version>
 
     </properties>
 
