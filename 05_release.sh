@@ -15,8 +15,9 @@
 # limitations under the License.
 
 #oc start-build my12factorapp --from-dir=. --follow
+#oc new-build java --binary=true --name=my12factorapp
+#oc new-build --binary=true --name=my12factorapp --image-stream="openshift/ubi8-openjdk-21:1.18" --strategy docker
 
-oc new-build java:8 --binary=true --name=my12factorapp
-oc start-build my12factorapp --from-file=target/helloworld-service-fat.jar -F
+oc new-build --binary=true --name=my12factorapp --image="registry.redhat.io/ubi9/openjdk-21" --strategy source
 
-
+oc start-build my12factorapp --from-file=target/12factor-app-2.0.0-runner.jar -F

@@ -13,6 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-oc set env deployment/my12factorapp GREETING="Hi {name}! - My Configuration has changed"
+oc set env deployment/my12factorapp GREETING='Hi \${name}! - My Configuration has changed'
 export OPENSHIFT_APP=`oc get route my12factorapp -o=jsonpath='{.spec.host}'`
 echo "Configuration updated. Please check again http://$OPENSHIFT_APP/api/hello/$DEMOTEXT"

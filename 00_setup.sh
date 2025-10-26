@@ -14,9 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 echo "Project setup"
-echo "OPENSHIFT_IP is $OPENSHIFT_IP"
 echo "DEMOTEXT is $DEMOTEXT"
 #export PATH=~/apache-maven-3.5.0/bin:$PATH
-oc login --insecure-skip-tls-verify=true -u developer https://$OPENSHIFT_IP:6443
+oc login -u developer 
 oc new-project 12factor-dev
-#oc new-build --binary --name=my12factorapp
+

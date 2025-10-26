@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 echo "Deploying a database"
-oc new-app --name mysql -e MYSQL_USER=myuser -e MYSQL_PASSWORD=mypassword -e MYSQL_DATABASE=mydatabase openshift/mysql-56-centos7 
+oc new-app --name mysql -e MYSQL_USER=myuser -e MYSQL_PASSWORD=mypassword -e MYSQL_DATABASE=mydatabase openshift/mysql 
 echo "Attach it to the app"
 oc set env deployment/my12factorapp host=mysql username=myuser password=mypassword database=mydatabase 
 oc annotate deployment/my12factorapp app.openshift.io/connects-to=mysql --overwrite
