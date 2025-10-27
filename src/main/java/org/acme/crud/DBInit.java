@@ -25,7 +25,7 @@ public class DBInit {
     }
 
     private void initdb() {
-        // TODO
+
         client.query("DROP TABLE IF EXISTS fruits").execute()
             .flatMap(r -> client.query("CREATE TABLE fruits (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute())
             .flatMap(r -> client.query("INSERT INTO fruits (name) VALUES ('Kiwi')").execute())

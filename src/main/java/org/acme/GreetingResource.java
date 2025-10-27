@@ -7,17 +7,21 @@ import org.acme.crud.Value;
 import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
-
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Multi;
 import io.vertx.mutiny.sqlclient.Pool; 
-import io.vertx.mutiny.mysqlclient.MySQLBuilder;
-import io.vertx.mysqlclient.MySQLConnectOptions;
 
 @Path("/api")
 public class GreetingResource {
@@ -39,9 +43,7 @@ public class GreetingResource {
     @ConfigProperty(name = "database",defaultValue = "mydatabase")
     String database;
 
-    public static final String version = "2.0";
-
-    //private static final Logger LOG = Logger.getLogger(GreetingResource.class);
+    public static final String version = "2.0.1";
 
     @Inject
     GreetingService service;
@@ -50,8 +52,7 @@ public class GreetingResource {
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/hello/{name}")
     public String greeting(String name) {
-        Log.info("New request Saying: " + name);
-        //Log.info(greeting);
+        Log.info("New request: " + name);
         Map<String, String> values = new HashMap<String, String>();
         values.put("name", name);
         values.put("hostname", hostname);
@@ -61,35 +62,19 @@ public class GreetingResource {
         StringSubstitutor sub = new StringSubstitutor(values);
         // Replace
         String resolvedString = sub.replace(greeting);
-        // Log.info(resolvedString);
-        // return service.greeting(name);
         return resolvedString;
     }
 
     private final Pool client;
 
     public GreetingResource(Pool client) {
-        /*
-        MySQLConnectOptions connectOptions = new MySQLConnectOptions()
-        .setPort(3306)
-        .setHost("the-host")
-        .setDatabase("mydatabase")
-        .setUser("myuser")
-        .setPassword("mypassword");
-
-        // Create the client pool
-        client = MySQLBuilder.pool()
-        .connectingTo(connectOptions)
-        .build();
-        */
         this.client = client;
     }
 
     @GET
     @Path("/db")
     public Multi<Value> get() {
-        Log.info("DB host: " + host + " port: " + port + " user: " + username + " database: " + database);
-        Log.info("Reading records from the database");
+        Log.info("Reding from database mysql://" + host + ":" + port + "/" + database + " user: " + username);
         return Value.findAll(client);
     }
 
@@ -107,4 +92,34 @@ public class GreetingResource {
         Log.info("New request");
         return "Hello from Quarkus REST";
     }
+
+    @Provider
+    public static class ErrorMapper implements ExceptionMapper<Exception> {
+
+        @Inject
+        ObjectMapper objectMapper;
+
+        @Override
+        public Response toResponse(Exception exception) {
+            Log.error("Failed to handle request " + exception.getMessage());
+
+            int code = 500;
+            if (exception instanceof WebApplicationException) {
+                code = ((WebApplicationException) exception).getResponse().getStatus();
+            }
+
+            ObjectNode exceptionJson = objectMapper.createObjectNode();
+            exceptionJson.put("exceptionType", exception.getClass().getName());
+            exceptionJson.put("code", code);
+
+            if (exception.getMessage() != null) {
+                exceptionJson.put("error", exception.getMessage());
+            }
+
+            return Response.status(code)
+                    .entity(exceptionJson)
+                    .build();
+        }
+    }
+
 }
